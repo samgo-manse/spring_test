@@ -3,6 +3,7 @@ package com.example.springtest.stream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,26 +73,40 @@ public class StreamTest2 {
     public void test1_answer() throws IOException, CsvException {
         List<String[]> csvLines = readCSVLines();
 
-        Map<String, Integer> result = csvLines.stream()
+        csvLines.stream()
                 .map(line -> line[1].replaceAll("\\s", ""))
                 .flatMap(hobbies -> Arrays.stream(hobbies.split(":")))
-                .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldValue, newValue) -> newValue += oldValue));
-
-        // Map<Object, Object> result = csvLines.stream()
-        //                                 .map(line -> line[1].replaceAll("\\s", ""))
-        //                                 .map(hobbies -> Arrays.stream(hobbies.split(":")))
-        //                                 .collect(Collectors.toMap(hobby->hobby,hobby -> 1, (oldvalue,newvalue) -> newvalue += oldvalue));
+                .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldValue, newValue) -> newValue += oldValue))
+                .entrySet()
+                .forEach(entry->System.out.println(entry.getKey() + " " + entry.getValue()));
     }
 
-    public static void main(final String[] args){
+    public void test2() throws IOException, CsvException {
+        List<String[]> csvLines = readCSVLines();
+
+        csvLines.stream()
+                .filter(line -> line[0].startsWith("정"))
+                .map(line -> line[1].replaceAll("\\s", ""))
+                .flatMap(hobbies -> Arrays.stream(hobbies.split(":")))
+                .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldValue,newValue) -> oldValue += newValue))
+                .entrySet()
+                .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+
+    }
+
+    public static void main(final String[] args) throws Exception{
         StreamTest2 stream = new StreamTest2();
         System.out.println("===========================================");
         stream.test1();
         System.out.println("===========================================");
+        stream.test1_answer();
+        System.out.println("===========================================");
+        stream.test2();
+        System.out.println("===========================================");
     }
 
     private List<String[]> readCSVLines() throws IOException, CsvException {
-        CSVReader csv = new CSVReader(new FileReader(getClass().getResource("/user.csv").getFile()));
+        CSVReader csv = new CSVReader(new FileReader(getClass().getResource("/user.csv").getFile(),Charset.forName("UTF-8")));
         csv.readNext();
         return csv.readAll();
     }
