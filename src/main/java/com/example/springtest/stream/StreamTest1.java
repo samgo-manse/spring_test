@@ -12,11 +12,11 @@ public class StreamTest1 {
      */
     public void test1() {
 
-        int[] data = {5, 6, 4, 2, 3, 1, 1, 2, 2, 4, 8};
+        int[] data = { 5, 6, 4, 2, 3, 1, 1, 2, 2, 4, 8 };
 
         int[] result = Arrays.stream(data)
-                .boxed()  //TODO 왜 필요한걸까?
-                .filter(num->num%2==0)
+                .boxed() // TODO 왜 필요한걸까?
+                .filter(num -> num % 2 == 0)
                 .distinct()
                 .sorted(Comparator.reverseOrder())
                 .mapToInt(Integer::intValue)
@@ -30,13 +30,15 @@ public class StreamTest1 {
      */
     public void test3() {
 
-        List<Integer> list = Arrays.asList(Integer.valueOf(5),Integer.valueOf(6),Integer.valueOf(4),Integer.valueOf(2),Integer.valueOf(3),Integer.valueOf(1),Integer.valueOf(1),Integer.valueOf(2),Integer.valueOf(2),Integer.valueOf(4),Integer.valueOf(8));
+        List<Integer> list = Arrays.asList(Integer.valueOf(5), Integer.valueOf(6), Integer.valueOf(4),
+                Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(2),
+                Integer.valueOf(2), Integer.valueOf(4), Integer.valueOf(8));
 
         List<Integer> result = list.stream()
-                                .filter(num->num%2==0)
-                                .distinct()
-                                .sorted(Comparator.reverseOrder())
-                                .collect(Collectors.toList()); //toList 바로 사용 가능
+                .filter(num -> num % 2 == 0)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList()); // toList 바로 사용 가능
 
         System.out.println(result);
 
@@ -54,7 +56,7 @@ public class StreamTest1 {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         StreamTest1 test = new StreamTest1();
         test.test1();
         System.out.println("===========================");
@@ -63,5 +65,5 @@ public class StreamTest1 {
         test.test3();
 
     }
-    
+
 }
