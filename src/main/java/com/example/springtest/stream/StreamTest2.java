@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -95,18 +96,28 @@ public class StreamTest2 {
                 .collect(Collectors.toMap(hobby -> hobby, hobby -> 1, (oldValue, newValue) -> oldValue += newValue))
                 .entrySet()
                 .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
-
     }
 
     void test3() throws IOException, CsvException {
         List<String[]> csvLines = readCSVLines();
-        Integer total = csvLines.stream()
-                .map(line -> line[2].split("좋아").length)
-                .reduce((x, y) -> x + y)
-                .get();
-
-        String str = "\uC8E0\uB974\uB514\uAC00 \uC88B\uC544\uC694 \uC88B\uC544\uC88B\uC544\uB108\uBB34\uC88B\uC544";
-        System.out.println(str.);
+        int total = csvLines.stream()
+                            .map(line -> {
+                                boolean flag = true;
+                                int index = 0, result = 0, cnt = 0;
+                                while(flag){
+                                    result = line[2].indexOf("좋아", index);
+                                    if(result >= 0){
+                                        cnt++;
+                                        index = result + 2;
+                                    }else{
+                                        flag = false;
+                                    }
+                                }
+                                return cnt;
+                            })
+                            .reduce((x,y) -> x + y)
+                            .get();
+        System.out.println(total);                            
     }
 
     public static void main(final String[] args) throws Exception {
