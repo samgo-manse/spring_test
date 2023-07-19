@@ -1,4 +1,4 @@
-package com.example.springtest.stream;
+package com.example.javatest.stream;
 
 public record Student(
     String name,

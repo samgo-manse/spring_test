@@ -1,4 +1,4 @@
-package com.example.springtest.stream;
+package com.example.javatest.stream;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
