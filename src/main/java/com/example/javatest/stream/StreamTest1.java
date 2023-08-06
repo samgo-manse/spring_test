@@ -50,7 +50,9 @@ public class StreamTest1 {
     public void test2() {
 
         List<String> list = Arrays.asList("a1", "a2", "b1", "b2", "c2", "c1", "c3");
-        List<String> result = list.stream().map(String::toUpperCase).toList();
+        List<String> result = list.stream()
+                .map(String::toUpperCase)
+                .toList();
 
         System.out.println(result);
 

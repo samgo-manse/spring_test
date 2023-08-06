@@ -101,36 +101,64 @@ public class StreamTest2 {
     void test3() throws IOException, CsvException {
         List<String[]> csvLines = readCSVLines();
         int total = csvLines.stream()
-                            .map(line -> {
-                                boolean flag = true;
-                                int index = 0, result = 0, cnt = 0;
-                                while(flag){
-                                    result = line[2].indexOf("좋아", index);
-                                    if(result >= 0){
-                                        cnt++;
-                                        index = result + 2;
-                                    }else{
-                                        flag = false;
-                                    }
-                                }
-                                return cnt;
-                            })
-                            .reduce((x,y) -> x + y)
-                            .get();
-        System.out.println(total);                            
+                .map(line -> {
+                    boolean flag = true;
+                    int index = 0, result = 0, cnt = 0;
+                    while (flag) {
+                        result = line[2].indexOf("좋아", index);
+                        if (result >= 0) {
+                            cnt++;
+                            index = result + 2;
+                        } else {
+                            flag = false;
+                        }
+                    }
+                    return cnt;
+                })
+                .reduce((x, y) -> x + y)
+                .get();
+        System.out.println(total);
+    }
+
+    void test4() {
+        List<String> WORDS = Arrays.asList("TONY", "a", "hULK", "B", "america", "X", "nebula", "Korea");
+
+        WORDS.stream()
+                .map(str -> str.substring(0, 1))
+                .collect(Collectors.toMap(key -> key, value -> 1, (previous, current) -> current += previous))
+                .entrySet()
+                .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+    }
+
+    void test5() {
+        List<String> WORDS = Arrays.asList("TONY", "a", "hULK", "B", "america", "X", "nebula", "Korea");
+
+        var result = WORDS.stream()
+                .filter(str -> str.length() >= 2)
+                .map(str -> str.substring(0, 1))
+                .collect(Collectors.joining(" "));
+        // .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+
+        System.out.println(result.toString());
+
     }
 
     public static void main(final String[] args) throws Exception {
         StreamTest2 stream = new StreamTest2();
-        System.out.println("===========================================");
+        System.out.println("test1===========================================");
         stream.test1();
-        System.out.println("===========================================");
+        System.out.println("test1_answer===========================================");
         stream.test1_answer();
-        System.out.println("===========================================");
+        System.out.println("test2===========================================");
         stream.test2();
-        System.out.println("===========================================");
+        System.out.println("test3===========================================");
         stream.test3();
+        System.out.println("test4===========================================");
+        stream.test4();
+        System.out.println("test5===========================================");
+        stream.test5();
         System.out.println("===========================================");
+
     }
 
     private List<String[]> readCSVLines() throws IOException, CsvException {
