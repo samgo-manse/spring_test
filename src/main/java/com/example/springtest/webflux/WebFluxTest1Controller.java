@@ -1,8 +1,8 @@
 package com.example.springtest.webflux;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
+import io.netty.channel.ChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -10,20 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
-import io.netty.channel.ChannelOption;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
 import reactor.core.publisher.Flux;
 import reactor.netty.http.client.HttpClient;
 
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 @RestController
-@RequestMapping("/api/v1/webfluxtest1")
+@RequestMapping("/api/v1/web-flux-test1")
 public class WebFluxTest1Controller {
 
     
-    @GetMapping("/test1_Publisher")
+    @GetMapping("/test1_publisher")
     public Flux<Long> test1(){
 
         System.out.println("=========================================");
@@ -51,7 +49,7 @@ public class WebFluxTest1Controller {
 
     }
 
-    @GetMapping("test1_Subscriber")
+    @GetMapping("/test1_subscriber")
     public Flux<Long> test2(){
 
         System.out.println("=========================================");
@@ -72,7 +70,7 @@ public class WebFluxTest1Controller {
         .build();
 
         return webClient.get()
-            .uri("/api/v1/webfluxtest1/test1_Publisher")
+            .uri("/api/v1/web-flux-test1/test1_publisher")
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
             .retrieve()
             .bodyToFlux(Long.class)

@@ -17,7 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'com.opencsv:opencsv:5.5'
-	implementation 'org.slf4j:slf4j-jdk14'
+//	implementation 'org.slf4j:slf4j-jdk14'
 	implementation 'io.projectreactor:reactor-core'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
